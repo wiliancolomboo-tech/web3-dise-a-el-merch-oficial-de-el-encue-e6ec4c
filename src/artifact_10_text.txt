@@ -1,0 +1,9 @@
+El Encuentro 2026 - Phygital Merch Protocol
+    ✔ 1. Initializes Campaign & Escrow Vault (238ms)
+    ✔ 2. Registers Catalog SKU (Hoodie Ltd) (182ms)
+    ✔ 3. Provisions Physical NFC Secure Element Chip (154ms)
+    ✔ 4. Attendee pre-orders merch item with sizing lock (Size XL) (412ms)
+    ✔ 5. Claims physical item in-person: mints digital twin & flushes funds (590ms)
+    ✔ 6. Exploit Defense: Replay attack fails on claimed NFC chip (92ms)
+
+  6 passing (2s)

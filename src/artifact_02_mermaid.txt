@@ -1,0 +1,47 @@
+flowchart TD
+    subgraph ClientAndHardware["Physical & Client Interfaces"]
+        NFC[("NTAG 424 DNA NFC Chip\n(Physical Apparel)")]
+        UserWallet["Attendee Solana Wallet\n(Phantom / Solflare)"]
+        AdminWallet["Event Authority / Factory Key"]
+    end
+
+    subgraph ProgramAccounts["El Encuentro Merch Program (PDAs)"]
+        Campaign["MerchCampaign PDA\n['campaign', event_id]"]
+        CatalogItem["CatalogItem PDA\n['item', campaign_pubkey, item_sku]"]
+        OrderEscrow["OrderEscrow PDA\n['order', catalog_item_pubkey, buyer_pubkey]"]
+        NfcRegistry["NfcRegistry PDA\n['nfc', chip_pubkey]"]
+        Vault["Escrow Vault Token Account\n['vault', campaign_pubkey]"]
+    end
+
+    subgraph ExternalPrograms["Solana System & Token Programs"]
+        TokenProg["SPL Token-2022 Program"]
+        SysProg["System Program"]
+        Ed25519Prog["Ed25519 SigVerify Precompile"]
+    end
+
+    %% Lifecycle Steps
+    AdminWallet -->|"1. Initialize Campaign & SKUs"| Campaign
+    AdminWallet -->|"2. Seed NFC Chip Keys"| NfcRegistry
+    CatalogItem -.->|"Governed by"| Campaign
+
+    UserWallet -->|"3. Place Pre-Order (Size, Payment)"| OrderEscrow
+    UserWallet -->|"Transfer USDC/SOL"| Vault
+
+    NFC -->|"4. Physical Tap (Dynamic SUN Signature)"| UserWallet
+    UserWallet -->|"5. Instruction: ClaimPhysicalMerch\n(Ed25519 Verify + Chip Auth)"| CatalogItem
+
+    OrderEscrow -->|"Verify Buyer & Sizing"| CatalogItem
+    NfcRegistry -->|"Verify Not Previously Claimed"| CatalogItem
+    CatalogItem -->|"6. CPI: Mint Digital Twin NFT"| TokenProg
+    CatalogItem -->|"7. Close Escrow / Set Claimed"| OrderEscrow
+    CatalogItem -->|"8. Release Payment to Merchant"| Vault
+
+    %% Security & Invariants
+    subgraph SecurityGuards["Security & Runtime Invariants"]
+        G1["Guard: ed25519_instruction_index validation"]
+        G2["Guard: Nonce replay counter check (> last_counter)"]
+        G3["Guard: Has_One Campaign & Admin Signer checks"]
+        G4["Guard: Sizing string byte length <= 16"]
+    end
+
+    CatalogItem -.-> SecurityGuards
