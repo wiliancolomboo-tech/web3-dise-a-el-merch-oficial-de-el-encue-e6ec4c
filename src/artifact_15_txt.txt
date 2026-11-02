@@ -1,0 +1,9 @@
++------------------------------------+---------------------------------------------------------------+
+| Threat Vector                      | Mitigation Architecture                                       |
++------------------------------------+---------------------------------------------------------------+
+| Tag Cloning (Replay Attack)        | Monotonically incrementing NTAG 424 counter validation        |
+| Front-Running Physical Swag Pickup | Buyer keypair MUST sign alongside the booth operator          |
+| Unchecked Treasury Re-routing     | Strict PDA seed & config treasury constraints                 |
+| Double-Claim / Reentrancy          | State updated to `is_redeemed = true` before lamport mutation |
+| Arithmetic Underflow / Overflow    | Rust `checked_add` / `checked_sub` with error propagation     |
++------------------------------------+---------------------------------------------------------------+

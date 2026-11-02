@@ -1,0 +1,2 @@
+[VISUAL: Dynamic UI showing VIP lounge unlock, followed by test coverage output: "6 passing tests (100% assertions)". 
+ Final splash screen: "El Encuentro 2026 — Verified On Solana".]

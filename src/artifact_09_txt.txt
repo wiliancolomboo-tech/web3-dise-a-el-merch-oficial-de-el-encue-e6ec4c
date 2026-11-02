@@ -1,0 +1,22 @@
++---------------------------------------------------------------------------------------------------+
+| THREAT VECTOR                | ATTACK SURFACE         | PROGRAMMITIC DEFENSE / INVARIANT           |
++==============================+========================+===========================================+
+| Physical Cloning / Dynamic   | Replaying static NFC   | Uses dynamic tap hash                      |
+| Tap Replay Attack            | payload from scanner   | keccak256(item_id || secret_entropy).     |
+|                              |                        | Chip increments counter per tap.          |
++------------------------------+------------------------+-------------------------------------------+
+| Claim Front-Running          | Mempool observer       | Secret payload only valid in conjunction   |
+| (Mempool Sniping)            | intercepts transaction | with recipient signature. Recipient must   |
+|                              | and replaces signer    | sign tx; item claimed_by bound to signer. |
++------------------------------+------------------------+-------------------------------------------+
+| PDA Seed Collision /         | Forged item or mint    | Strict seed validation:                   |
+| Fake Token Account           | derivation             | seeds = [b"item", collection, item_id]    |
+|                              |                        | Bump stored on-chain and verified.        |
++------------------------------+------------------------+-------------------------------------------+
+| Double Perk Spending         | Scanning same item     | Bitwise mask (u8) allows exactly 1        |
+| (VIP Line Re-entry)          | across multi-terminals | redemption per bitwise flag (0..7).        |
++------------------------------+------------------------+-------------------------------------------+
+| Integer Arithmetic Exploit   | Counter wrapping via   | Explicit checked_add() and checked_sub()  |
+|                              | rapid claims           | on collection counters; errors with       |
+|                              |                        | MathOverflow on invariant breach.         |
++------------------------------+------------------------+-------------------------------------------+

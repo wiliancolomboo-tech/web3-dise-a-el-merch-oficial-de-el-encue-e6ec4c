@@ -1,0 +1,56 @@
+flowchart TD
+    subgraph Physical_Hardware["Physical Layer (Merch Item)"]
+        NFC["NTAG 424 DNA / SE Chip (ed25519)"]
+        TagPrivKey["Chip Secret Key (Non-extractable)"]
+        NFC -->|Sign Challenge| SigProof["Hardware Signature: Sig_chip(Nonce || UserPubkey)"]
+    end
+
+    subgraph Client_Layer["Mobile / Tap-to-Claim PWA"]
+        AttendeeWallet["Attendee Wallet (User)"]
+        ChallengeGen["Nonce Generator (Slot Hash + Epoch)"]
+        AttendeeWallet -->|Supplies Pubkey| ChallengeGen
+        ChallengeGen -->|Sends Nonce| NFC
+        SigProof --> TxAssembler["Transaction Assembler"]
+        AttendeeWallet -->|Signs Tx| TxAssembler
+    end
+
+    subgraph Solana_Runtime["Solana On-Chain Program (El Encuentro 2026 Merch Engine)"]
+        Ed25519Verify["Ed25519 Precompile Instruction (0x02)\nCheck Sig_chip == Valid"]
+        TxAssembler -->|Submit Atomic Tx| Ed25519Verify
+
+        subgraph Anchor_Program["Program: el_encuentro_merch"]
+            InitMaster["1. initialize_merch_collection\n(Event Authority Only)"]
+            RegisterItem["2. register_physical_item\n(Binds Chip Pubkey to SKU PDA)"]
+            ClaimDigitalTwin["3. claim_phygital_twin\n(Validates Ed25519 Ix + Updates State)"]
+            TapPerk["4. record_venue_tap\n(Unlocks Zone: VIP / Stage / Hackathon)"]
+
+            Ed25519Verify -->|Success Context| ClaimDigitalTwin
+            Ed25519Verify -->|Success Context| TapPerk
+        end
+
+        subgraph Account_State["PDA Storage (Rent-Exempt)"]
+            CollectionConfig["MasterConfig PDA\n['config', event_id]"]
+            ItemRegistry["ItemAccount PDA\n['item', chip_pubkey]\n- sku_id\n- tier\n- owner\n- tap_count\n- is_claimed"]
+            VenueBeacon["VenueCheckpoint PDA\n['beacon', venue_zone_id]"]
+        end
+
+        InitMaster --> CollectionConfig
+        RegisterItem --> ItemRegistry
+        ClaimDigitalTwin -->|Binds Owner| ItemRegistry
+        TapPerk -->|Increments Tap Counter & Appends Bitmask| ItemRegistry
+        TapPerk -->|Reads Allowed Zone| VenueBeacon
+    end
+
+    subgraph External_State["Asset Layer"]
+        TokenTwin["Dynamic Digital Twin\n(Compressed NFT / Token-2022)"]
+        ClaimDigitalTwin -->|CPI Mint / Assign| TokenTwin
+    end
+
+    classDef hardware fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef client fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef program fill:#bfb,stroke:#333,stroke-width:2px;
+    classDef storage fill:#ffd,stroke:#333,stroke-width:2px;
+    class NFC,TagPrivKey,SigProof hardware;
+    class AttendeeWallet,ChallengeGen,TxAssembler client;
+    class Anchor_Program,Ed25519Verify program;
+    class Account_State,CollectionConfig,ItemRegistry,VenueBeacon,TokenTwin storage;

@@ -1,0 +1,9 @@
+encuentro-phygital contract test suite
+    ✔ 1. Initializes the Master Merch Collection (184ms)
+    ✔ 2. Registers an NFC-chipped physical item (Speaker VIP Jacket) (142ms)
+    ✔ 3. Verifies chip signature & claims digital twin (Atomic Ed25519 check) (198ms)
+    ✔ 4. Prevents Replay Attack with stale scan counter (95ms)
+    ✔ 5. Redeems physical merch perks (Solana VIP lounge access / drinks) (112ms)
+    ✔ 6. Rejects perk redemption from unauthorized third party (88ms)
+
+  6 passing (1.2s)

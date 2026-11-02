@@ -1,0 +1,9 @@
+El Encuentro 2026 - Phygital Merch Protocol QA Matrix
+    ✔ QA-01: Successfully initializes protocol state (184ms)
+    ✔ QA-02: Registers Merch SKU with Token-2022 mint PDA authority (422ms)
+    ✔ QA-03: Registers embedded physical chip UID into SKU registry (115ms)
+    ✔ QA-04: Successfully executes physical tap claim and mints Token-2022 (489ms)
+    ✔ QA-05 [Security]: Rejects replay attack with previously claimed chip (88ms)
+    ✔ QA-06 [Security]: Rejects unauthorized oracle signature (96ms)
+
+  6 passing (1.4s)

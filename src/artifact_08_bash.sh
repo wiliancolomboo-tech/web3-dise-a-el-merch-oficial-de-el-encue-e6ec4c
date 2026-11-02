@@ -1,9 +1,8 @@
-# Clone and enter the repository
-git clone https://github.com/el-encuentro-2026/merch-protocol.git
-cd merch-protocol
+# Switch CLI to devnet
+solana config set --url https://api.devnet.solana.com
 
-# Fetch dependencies
-yarn install
+# Fund deployer account
+solana airdrop 2
 
-# Build Anchor smart contract binaries and IDL
-anchor build
+# Deploy program
+anchor deploy --provider.cluster devnet

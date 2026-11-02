@@ -1,0 +1,11 @@
++--------------------------------------------------------------------------------------------------+
+|                                    VALUE PROPOSITION MATRIX                                     |
++--------------------------+----------------------------------+------------------------------------+
+| Vector                   | Legacy Merch                     | El Encuentro 2026 Phygital Engine  |
++--------------------------+----------------------------------+------------------------------------+
+| Authenticity             | None (Screen-printed logos)      | Cryptographic hardware keypair     |
+| Secondary Market Fraud   | Untracked bootlegs               | Dual-Signer Physical-Digital Handshake |
+| Post-Event Utility       | Landfill / Closet storage        | Dynamic on-chain XP & Token Gating |
+| Minting Cost             | N/A                              | <0.0014 SOL (PDA Escrow / Mint)    |
+| Replay Attack Protection | Non-existent                     | Monotonic hardware counter + Nonce |
++--------------------------+----------------------------------+------------------------------------+

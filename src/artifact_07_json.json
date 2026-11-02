@@ -1,0 +1,25 @@
+{
+  "name": "El Encuentro 2026 Phygital Hoodie #0042",
+  "symbol": "ENC26-HOODIE",
+  "description": "Official authenticated merchandise of El Encuentro 2026. Equipped with embedded cryptographically attested NTAG 424 DNA NFC chip.",
+  "image": "https://arweave.net/el-encuentro-2026/hoodie-render.png",
+  "animation_url": "https://arweave.net/el-encuentro-2026/hoodie-3d-model.glb",
+  "external_url": "https://elencuentro2026.xyz/merch/2026001",
+  "attributes": [
+    { "trait_type": "Event", "value": "El Encuentro 2026" },
+    { "trait_type": "Apparel Type", "value": "Cyber-Andean Heavyweight Hoodie" },
+    { "trait_type": "Hardware Chip", "value": "NXP NTAG 424 DNA" },
+    { "trait_type": "Chip UID", "value": "04:A2:5B:1F:88:90:80" },
+    { "trait_type": "Tier", "value": "Founders Edition" },
+    { "trait_type": "Rarity Score", "value": "98.4" }
+  ],
+  "properties": {
+    "category": "vr",
+    "files": [
+      {
+        "uri": "https://arweave.net/el-encuentro-2026/hoodie-render.png",
+        "type": "image/png"
+      }
+    ]
+  }
+}

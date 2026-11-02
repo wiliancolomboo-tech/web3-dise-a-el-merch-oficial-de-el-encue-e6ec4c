@@ -1,47 +1,38 @@
 flowchart TD
-    subgraph ClientAndHardware["Physical & Client Interfaces"]
-        NFC[("NTAG 424 DNA NFC Chip\n(Physical Apparel)")]
-        UserWallet["Attendee Solana Wallet\n(Phantom / Solflare)"]
-        AdminWallet["Event Authority / Factory Key"]
+    subgraph Physical Layer
+        NFC[NTAG 424 DNA Chip\nEmbedded in Merch]
+        UserWallet[Attendee Mobile Wallet\nPhantom / Solflare]
+        NFC -- Signs Payload (Ed25519) --> UserWallet
     end
 
-    subgraph ProgramAccounts["El Encuentro Merch Program (PDAs)"]
-        Campaign["MerchCampaign PDA\n['campaign', event_id]"]
-        CatalogItem["CatalogItem PDA\n['item', campaign_pubkey, item_sku]"]
-        OrderEscrow["OrderEscrow PDA\n['order', catalog_item_pubkey, buyer_pubkey]"]
-        NfcRegistry["NfcRegistry PDA\n['nfc', chip_pubkey]"]
-        Vault["Escrow Vault Token Account\n['vault', campaign_pubkey]"]
+    subgraph Solana Program: el_encuentro_merch
+        ConfigPDA[(MerchConfig PDA\n`['config']`)]
+        MerchItemPDA[(MerchItem PDA\n`['item', item_id]`)]
+        AttendeeReceiptPDA[(ClaimReceipt PDA\n`['claim', item_id, attendee]`)]
+        
+        IX_INIT[Instruction: initialize_collection]
+        IX_REGISTER[Instruction: register_physical_item]
+        IX_CLAIM[Instruction: verify_and_claim]
+        IX_EVOLVE[Instruction: log_event_interaction]
+
+        IX_INIT --> ConfigPDA
+        IX_REGISTER --> MerchItemPDA
+        IX_CLAIM --> MerchItemPDA
+        IX_CLAIM --> AttendeeReceiptPDA
+        IX_EVOLVE --> MerchItemPDA
     end
 
-    subgraph ExternalPrograms["Solana System & Token Programs"]
-        TokenProg["SPL Token-2022 Program"]
-        SysProg["System Program"]
-        Ed25519Prog["Ed25519 SigVerify Precompile"]
+    subgraph Security Guards & CPIs
+        SignerCheck{Signer Check:\nItem Chip Pubkey\nValidates Signature}
+        AntiReplay{Anti-Replay Guard:\nReceipt PDA Exists?\nTimestamp Skew <= 120s}
+        BurnGuard{Supply Cap Guard:\nRegistered vs Minted}
+        SystemProgram[Solana System Program]
     end
 
-    %% Lifecycle Steps
-    AdminWallet -->|"1. Initialize Campaign & SKUs"| Campaign
-    AdminWallet -->|"2. Seed NFC Chip Keys"| NfcRegistry
-    CatalogItem -.->|"Governed by"| Campaign
-
-    UserWallet -->|"3. Place Pre-Order (Size, Payment)"| OrderEscrow
-    UserWallet -->|"Transfer USDC/SOL"| Vault
-
-    NFC -->|"4. Physical Tap (Dynamic SUN Signature)"| UserWallet
-    UserWallet -->|"5. Instruction: ClaimPhysicalMerch\n(Ed25519 Verify + Chip Auth)"| CatalogItem
-
-    OrderEscrow -->|"Verify Buyer & Sizing"| CatalogItem
-    NfcRegistry -->|"Verify Not Previously Claimed"| CatalogItem
-    CatalogItem -->|"6. CPI: Mint Digital Twin NFT"| TokenProg
-    CatalogItem -->|"7. Close Escrow / Set Claimed"| OrderEscrow
-    CatalogItem -->|"8. Release Payment to Merchant"| Vault
-
-    %% Security & Invariants
-    subgraph SecurityGuards["Security & Runtime Invariants"]
-        G1["Guard: ed25519_instruction_index validation"]
-        G2["Guard: Nonce replay counter check (> last_counter)"]
-        G3["Guard: Has_One Campaign & Admin Signer checks"]
-        G4["Guard: Sizing string byte length <= 16"]
-    end
-
-    CatalogItem -.-> SecurityGuards
+    UserWallet -- 1. Submit Claim TX --> IX_CLAIM
+    IX_CLAIM --> SignerCheck
+    SignerCheck -- Valid --> AntiReplay
+    AntiReplay -- Pass --> BurnGuard
+    BurnGuard -- Update State --> MerchItemPDA
+    BurnGuard -- Initialize --> AttendeeReceiptPDA
+    AttendeeReceiptPDA -. CPI Allocate .-> SystemProgram

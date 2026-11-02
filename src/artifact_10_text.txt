@@ -1,9 +1,8 @@
-El Encuentro 2026 - Phygital Merch Protocol
-    ✔ 1. Initializes Campaign & Escrow Vault (238ms)
-    ✔ 2. Registers Catalog SKU (Hoodie Ltd) (182ms)
-    ✔ 3. Provisions Physical NFC Secure Element Chip (154ms)
-    ✔ 4. Attendee pre-orders merch item with sizing lock (Size XL) (412ms)
-    ✔ 5. Claims physical item in-person: mints digital twin & flushes funds (590ms)
-    ✔ 6. Exploit Defense: Replay attack fails on claimed NFC chip (92ms)
+encuentro_merch phygital protocol
+    ✔ Initializes the El Encuentro 2026 Collection Config (142ms)
+    ✔ Registers a physical merchandise item (Official Hoodie with NFC) (98ms)
+    ✔ Successfully verifies Ed25519 hardware signature and claims digital twin (312ms)
+    ✔ Fails if an attacker attempts replay or double-claim (74ms)
+    ✔ Unlocks Waypoint on-site via subsequent authenticated NFC tap (189ms)
 
-  6 passing (2s)
+  5 passing (815ms)

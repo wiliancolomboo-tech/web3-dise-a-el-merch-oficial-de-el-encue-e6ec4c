@@ -1,18 +1,17 @@
-+---------------------------+------------------------------------+-------------------------------------------+
-| VULNERABILITY VECTOR      | PROTOCOL MITIGATION                | ANCHOR / SOLANA MECHANISM                 |
-+---------------------------+------------------------------------+-------------------------------------------+
-| Reentrancy Attacks        | Checks-Effects-Interactions (CEI)  | State boolean flags toggled BEFORE        |
-|                           |                                    | CPI invocations to Token Program          |
-+---------------------------+------------------------------------+-------------------------------------------+
-| Fake Payment Mint         | Strict Mint Constraint             | `constraint = token_account.mint == mint`  |
-| Substitution              |                                    | and Program-owned escrow validation       |
-+---------------------------+------------------------------------+-------------------------------------------+
-| NFC Dynamic Replay        | Strictly Monotonic Counter         | `require!(tap_counter > last_counter)`     |
-| Attacks (Cloning)         | + Asymmetric Chip Keys             | + hardware AES-CMAC rolling nonce         |
-+---------------------------+------------------------------------+-------------------------------------------+
-| Inventory Griefing        | Pre-Order Escrow Collateral        | Token transfer executes atomically;       |
-| (Exhausting Sizing)       |                                    | zero reservation without full escrow deposit |
-+---------------------------+------------------------------------+-------------------------------------------+
-| Signer Impersonation      | PDA Seed Specificity               | Buyer wallet must sign the claim and match|
-|                           |                                    | `order_escrow.buyer` recorded state       |
-+---------------------------+------------------------------------+-------------------------------------------+
++---------------------------------------------------------------------------------------+
+| INVARIANT / GUARD                | VULNERABILITY MITIGATED | MITIGATION IMPLEMENTATION |
++----------------------------------+-------------------------+---------------------------+
+| Anti-Replay Nonce                | Signature Replay        | Unix timestamp drift checks|
+|                                  |                         | (max +-180s) + PDA receipt|
++----------------------------------+-------------------------+---------------------------+
+| Pre-Instruction Verification     | Fake Hardware Claims    | Introspects ed25519 native|
+|                                  |                         | system instruction index  |
++----------------------------------+-------------------------+---------------------------+
+| Admin Authority Check            | Rogue Registry Updates  | `has_one = admin` on PDA  |
++----------------------------------+-------------------------+---------------------------+
+| Arithmetic Boundaries            | Overflow/Underflow      | `checked_add` & saturating|
+|                                  |                         | math in Rust 2021 edition |
++----------------------------------+-------------------------+---------------------------+
+| Double Claim Prevention          | Inventory Drain         | Strict boolean flag guard |
+|                                  |                         | + unique Receipt PDA init |
++---------------------------------------------------------------------------------------+

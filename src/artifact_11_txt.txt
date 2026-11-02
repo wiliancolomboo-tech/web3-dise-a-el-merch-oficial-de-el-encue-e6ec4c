@@ -1,0 +1,24 @@
++-----------+-------------------------------------------------------+-----------------------------------------------------------+
+| Timestamp | Visual Display                                        | Spoken Narration (English & Spanish Hybrid)               |
++-----------+-------------------------------------------------------+-----------------------------------------------------------+
+| 00:00-00:20 | 3D render of Official El Encuentro 2026 Hoodie with  | "Merchandise at major Web3 events is broken. T-shirts and |
+|           | NFC chip callout + Solana logo.                       | hoodies become forgotten fabric. Welcome to the official  |
+|           |                                                       | El Encuentro 2026 Phygital Merch Protocol."               |
++-----------+-------------------------------------------------------+-----------------------------------------------------------+
+| 00:20-00:45 | Terminal split-screen: Mobile phone tapping sleeve of  | "Every garment embeds an Ed25519 cryptographic chip. When |
+|           | jacket. Transaction builds instantly in Octane relayer| you tap your phone, an on-chain zero-gas transaction is   |
+|           | without gas prompt.                                   | triggered. No seed phrase friction, no gas needed."       |
++-----------+-------------------------------------------------------+-----------------------------------------------------------+
+| 00:45-01:15 | Anchor test execution running in CLI with 7 green check| "Under the hood, our custom Anchor program introspects the|
+|           | marks. Architecture diagram zooming in on Ed25519 pre-| Solana Ed25519 precompile instruction, guarantees anti-   |
+|           | compile introspection.                                | replay protection via hardware counters, and mints an     |
+|           |                                                       | authentic Token-2022 Digital Twin in under 400ms."        |
++-----------+-------------------------------------------------------+-----------------------------------------------------------+
+| 01:15-01:40 | Solana Explorer showing Token-2022 Digital Twin, then | "The Digital Twin isn't just an image. It's a dynamic key.|
+|           | tapping VIP lounge scanner to unlock party access     | Watch us redeem perk flag 0 for the VIP Closing Party.    |
+|           | (bitwise mask update).                                | The bitmask flips on-chain, preventing double entries."   |
++-----------+-------------------------------------------------------+-----------------------------------------------------------+
+| 01:40-02:00 | Summary slide with GitHub repo, live devnet program   | "Complete with full Anchor test coverage, gas profiling,  |
+|           | address, and physical production mockups.             | and hardware schematics, this protocol is ready to power  |
+|           |                                                       | El Encuentro 2026. ¡Nos vemos en El Encuentro!"           |
++-----------+-------------------------------------------------------+-----------------------------------------------------------+

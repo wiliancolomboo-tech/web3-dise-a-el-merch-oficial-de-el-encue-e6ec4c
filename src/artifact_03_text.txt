@@ -1,0 +1,17 @@
+encuentro-merch/
+├── Anchor.toml
+├── Cargo.toml
+├── programs/
+│   └── encuentro_merch/
+│       ├── Cargo.toml
+│       └── src/
+│           ├── errors.rs
+│           ├── instructions/
+│           │   ├── claim_item.rs
+│           │   ├── initialize_collection.rs
+│           │   ├── register_item.rs
+│           │   └── redeem_perk.rs
+│           ├── state.rs
+│           └── lib.rs
+└── tests/
+    └── encuentro_merch.ts

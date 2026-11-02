@@ -1,0 +1,19 @@
+[00:00 - 00:20] THE HOOK & THE PROBLEM
+(Visual: Screen showing chaotic registration lines and unverified counterfeit swag booths)
+Narrator: "Every major crypto event drops merch, but 90% of it is plagued by two issues: physical counterfeits, and disconnected digital utility. Welcome to El Encuentro 2026 Phygital Infrastructure—the protocol that bridges cryptographic hardware directly into Solana's runtime."
+
+[00:20 - 00:50] THE ARCHITECTURE & PRE-ORDER ESCROW
+(Visual: Terminal running Anchor test, highlighting PDA derivations for SKU, Order, and Escrow Vault)
+Narrator: "We solved this with a zero-custody, four-way PDA architecture. In step one, an attendee purchases a jacket or hoodie online using SOL or USDC. The funds don't go to an untrusted vendor; they are locked into an on-chain Escrow Vault PDA keyed to the event configuration."
+
+[00:50 - 01:25] THE PHYSICAL TAP & COUNTER REPLAY PROTECTION
+(Visual: Mobile phone interacting with an NTAG 424 DNA NFC chip. On-chain verify_and_redeem execution logs outputting 27,320 CUs)
+Narrator: "At the event booth, attendees tap the embedded NTAG 424 hardware chip in the garment. The chip emits a dynamic cryptographic counter. In a single atomic transaction requiring booth co-signing, the on-chain engine verifies the counter, confirms the pre-order, releases escrow funds to the organizers, and issues a Soulbound Token-2022 digital twin to the attendee's wallet."
+
+[01:25 - 01:45] ATTACK RESISTANCE IN ACTION
+(Visual: Execution of Test 6 in the QA suite. Terminal highlights error: AlreadyRedeemed and InvalidChipCounter)
+Narrator: "Notice what happens when an attacker attempts to replay an NFC tap or claim a cloned garment. The program rejects the transaction immediately, preventing replay attacks and preserving event exclusivity."
+
+[01:45 - 02:00] WHY WE WIN FIRST PLACE
+(Visual: Summary slide showcasing low gas consumption, Solana Mobile Stack integration readiness, and full Anchor test suite passed)
+Narrator: "With less than 28,000 Compute Units, sub-cent transaction fees, and hardware-grade security, our Phygital Merch Protocol transforms El Encuentro 2026 into the most technologically advanced Web3 conference in Latin America. Thank you!"

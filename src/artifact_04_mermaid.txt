@@ -1,0 +1,14 @@
+classDiagram
+    class SecurityGuards {
+        +verify_ed25519_precompile()
+        +anti_replay_monotonic_check()
+        +token_2022_ownership_assertion()
+        +pda_signer_validation()
+    }
+    class AttackVectors {
+        +Signature Replay
+        +Chip Cloning
+        +Sybil Double Claim
+        +Unauthorized Privilege Escalation
+    }
+    SecurityGuards ..> AttackVectors : Mitigates

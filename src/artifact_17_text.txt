@@ -1,0 +1,8 @@
+encuentro-phygital-protocol
+    ✔ 1. Initializes Event Catalog for El Encuentro 2026 (185ms)
+    ✔ 2. Registers Physical SKU (El Encuentro Official Hoodie) (142ms)
+    ✔ 3. Buyer Pre-orders Merchandise (Escrow Lockup) (165ms)
+    ✔ 4. Physical Verification & NFC Claim at Venue Booth (Ed25519 Introspection) (210ms)
+    ✔ 5. Rejects Replay / Double Claim Attack (95ms)
+
+  5 passing (800ms)

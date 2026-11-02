@@ -2,265 +2,210 @@ import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
 import { ElEncuentroMerch } from "../target/types/el_encuentro_merch";
 import {
-  createMint,
-  createAccount,
-  mintTo,
-  getAccount,
-  TOKEN_PROGRAM_ID,
-} from "@solana/spl-token";
-import { Keypair, PublicKey } from "@solana/web3.js";
+  Keypair,
+  PublicKey,
+  SystemProgram,
+  SYSVAR_INSTRUCTIONS_PUBKEY,
+  Ed25519Program,
+  Transaction,
+} from "@solana/web3.js";
 import { expect } from "chai";
+import * as nacl from "tweetnacl";
 
 describe("El Encuentro 2026 - Phygital Merch Protocol", () => {
   const provider = anchor.AnchorProvider.env();
   anchor.setProvider(provider);
 
   const program = anchor.workspace.ElEncuentroMerch as Program<ElEncuentroMerch>;
-  const admin = (provider.wallet as anchor.Wallet).payer;
-  const buyer = Keypair.generate();
-  const treasury = Keypair.generate();
-  const hardwareChip = Keypair.generate();
+  const admin = (provider.wallet as any).payer as Keypair;
 
-  const eventId = new anchor.BN(2026);
-  const sku = "ENCUENTRO-HOODIE-LTD";
-  const itemPrice = new anchor.BN(50_000_000); // 50 USDC (6 decimals)
-  const maxSupply = 500;
+  const attendee = Keypair.generate();
+  const hardwareChip = Keypair.generate(); // Emulates the NTAG 424 DNA hardware keypair
 
-  let paymentMint: PublicKey;
-  let buyerPaymentAccount: PublicKey;
-  let treasuryPaymentAccount: PublicKey;
-  let campaignPda: PublicKey;
-  let escrowVaultPda: PublicKey;
-  let catalogItemPda: PublicKey;
-  let nfcRegistryPda: PublicKey;
-  let orderEscrowPda: PublicKey;
-  let digitalTwinMint: PublicKey;
-  let buyerDigitalTwinAccount: PublicKey;
+  const itemId = 202601;
+  const maxSupply = 5000;
+
+  let configPda: PublicKey;
+  let itemPda: PublicKey;
+  let receiptPda: PublicKey;
 
   before(async () => {
-    // 1. Airdrop SOL to buyer
-    const sig = await provider.connection.requestAirdrop(buyer.publicKey, 5 * anchor.web3.LAMPORTS_PER_SOL);
-    await provider.connection.confirmTransaction(sig);
-
-    // 2. Setup mock USDC mint
-    paymentMint = await createMint(
-      provider.connection,
-      admin,
-      admin.publicKey,
-      null,
-      6
+    // Airdrop SOL to test claimant
+    const sig = await provider.connection.requestAirdrop(
+      attendee.publicKey,
+      2 * anchor.web3.LAMPORTS_PER_SOL
     );
+    await provider.connection.confirmTransaction(sig, "confirmed");
 
-    // 3. Setup token accounts
-    buyerPaymentAccount = await createAccount(
-      provider.connection,
-      buyer,
-      paymentMint,
-      buyer.publicKey
-    );
-
-    treasuryPaymentAccount = await createAccount(
-      provider.connection,
-      admin,
-      paymentMint,
-      treasury.publicKey
-    );
-
-    // 4. Fund buyer token account
-    await mintTo(
-      provider.connection,
-      admin,
-      paymentMint,
-      buyerPaymentAccount,
-      admin,
-      200_000_000
-    );
-
-    // 5. Derive PDAs
-    [campaignPda] = PublicKey.findProgramAddressSync(
-      [Buffer.from("campaign"), eventId.toArrayLike(Buffer, "le", 8)],
+    [configPda] = PublicKey.findProgramAddressSync(
+      [Buffer.from("config")],
       program.programId
     );
 
-    [escrowVaultPda] = PublicKey.findProgramAddressSync(
-      [Buffer.from("vault"), campaignPda.toBuffer()],
+    const itemIdBuffer = Buffer.alloc(4);
+    itemIdBuffer.writeUInt32LE(itemId, 0);
+
+    [itemPda] = PublicKey.findProgramAddressSync(
+      [Buffer.from("item"), itemIdBuffer],
       program.programId
     );
 
-    [catalogItemPda] = PublicKey.findProgramAddressSync(
-      [Buffer.from("item"), campaignPda.toBuffer(), Buffer.from(sku)],
+    [receiptPda] = PublicKey.findProgramAddressSync(
+      [Buffer.from("claim"), itemIdBuffer, attendee.publicKey.toBuffer()],
       program.programId
-    );
-
-    [nfcRegistryPda] = PublicKey.findProgramAddressSync(
-      [Buffer.from("nfc"), hardwareChip.publicKey.toBuffer()],
-      program.programId
-    );
-
-    [orderEscrowPda] = PublicKey.findProgramAddressSync(
-      [Buffer.from("order"), catalogItemPda.toBuffer(), buyer.publicKey.toBuffer()],
-      program.programId
-    );
-
-    // 6. Setup Digital Twin Mint (PDA Campaign is Mint Authority)
-    digitalTwinMint = await createMint(
-      provider.connection,
-      admin,
-      campaignPda, // Mint authority is Campaign PDA
-      null,
-      0
-    );
-
-    buyerDigitalTwinAccount = await createAccount(
-      provider.connection,
-      buyer,
-      digitalTwinMint,
-      buyer.publicKey
     );
   });
 
-  it("1. Initializes Campaign & Escrow Vault", async () => {
-    await program.methods
-      .initializeCampaign(eventId, paymentMint, treasury.publicKey)
+  it("Initializes the El Encuentro 2026 Master Merch Collection", async () => {
+    const tx = await program.methods
+      .initializeCollection("El Encuentro 2026 Official", maxSupply)
       .accounts({
-        campaign: campaignPda,
-        escrowVault: escrowVaultPda,
-        paymentMint: paymentMint,
-        treasuryWallet: treasury.publicKey,
+        config: configPda,
         admin: admin.publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId,
-        tokenProgram: TOKEN_PROGRAM_ID,
+        systemProgram: SystemProgram.programId,
       })
       .rpc();
 
-    const campaignState = await program.account.merchCampaign.fetch(campaignPda);
-    expect(campaignState.eventId.toNumber()).to.equal(2026);
-    expect(campaignState.admin.toBase58()).to.equal(admin.publicKey.toBase58());
+    expect(tx).to.be.a("string");
+
+    const configAccount = await program.account.merchConfig.fetch(configPda);
+    expect(configAccount.admin.toBase58()).to.equal(admin.publicKey.toBase58());
+    expect(configAccount.maxSupply).to.equal(maxSupply);
+    expect(configAccount.totalRegistered).to.equal(0);
+    expect(configAccount.totalClaimed).to.equal(0);
   });
 
-  it("2. Registers Catalog SKU (Hoodie Ltd)", async () => {
+  it("Registers an Official Physical Cyberpunk Hoodie with embedded Chip Pubkey", async () => {
+    const uri = "https://arweave.net/el-encuentro-2026/cyberpunk-hoodie-001.json";
+
     await program.methods
-      .registerCatalogItem(sku, itemPrice, maxSupply)
+      .registerPhysicalItem(
+        itemId,
+        hardwareChip.publicKey,
+        { cyberpunkHoodie: {} },
+        { large: {} },
+        uri
+      )
       .accounts({
-        campaign: campaignPda,
-        catalogItem: catalogItemPda,
+        config: configPda,
+        item: itemPda,
         admin: admin.publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId,
+        systemProgram: SystemProgram.programId,
       })
       .rpc();
 
-    const itemState = await program.account.catalogItem.fetch(catalogItemPda);
-    expect(itemState.sku).to.equal(sku);
-    expect(itemState.priceInTokens.toNumber()).to.equal(itemPrice.toNumber());
-    expect(itemState.maxSupply).to.equal(maxSupply);
-    expect(itemState.reservedCount).to.equal(0);
+    const itemAccount = await program.account.merchItem.fetch(itemPda);
+    expect(itemAccount.itemId).to.equal(itemId);
+    expect(itemAccount.chipPubkey.toBase58()).to.equal(hardwareChip.publicKey.toBase58());
+    expect(itemAccount.isClaimed).to.be.false;
+    expect(itemAccount.interactionXp).to.equal(0);
   });
 
-  it("3. Provisions Physical NFC Secure Element Chip", async () => {
-    await program.methods
-      .provisionNfcChip(hardwareChip.publicKey)
+  it("Executes NFC Tap Claim with native Ed25519 pre-instruction validation", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const timestamp = new anchor.BN(now);
+
+    // Construct the expected payload: [Claimant Pubkey: 32 bytes] + [Timestamp LE: 8 bytes]
+    const timestampBuffer = Buffer.alloc(8);
+    timestampBuffer.writeBigInt64LE(BigInt(now), 0);
+    const message = Buffer.concat([attendee.publicKey.toBuffer(), timestampBuffer]);
+
+    // Sign with physical chip simulated hardware keypair
+    const signature = nacl.sign.detached(message, hardwareChip.secretKey);
+
+    // Build the atomic Ed25519 verification instruction
+    const ed25519Instruction = Ed25519Program.createInstructionWithPublicKey({
+      publicKey: hardwareChip.publicKey.toBytes(),
+      message: message,
+      signature: signature,
+    });
+
+    const claimTx = new Transaction();
+    claimTx.add(ed25519Instruction);
+
+    const claimIx = await program.methods
+      .verifyAndClaim(itemId, timestamp, Array.from(signature))
       .accounts({
-        campaign: campaignPda,
-        catalogItem: catalogItemPda,
-        nfcRegistry: nfcRegistryPda,
-        admin: admin.publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId,
+        config: configPda,
+        item: itemPda,
+        claimReceipt: receiptPda,
+        claimant: attendee.publicKey,
+        ixSysvar: SYSVAR_INSTRUCTIONS_PUBKEY,
+        systemProgram: SystemProgram.programId,
       })
-      .rpc();
+      .instruction();
 
-    const nfcState = await program.account.nfcRegistry.fetch(nfcRegistryPda);
-    expect(nfcState.chipPubkey.toBase58()).to.equal(hardwareChip.publicKey.toBase58());
-    expect(nfcState.isClaimed).to.be.false;
+    claimTx.add(claimIx);
+
+    const txSig = await anchor.web3.sendAndConfirmTransaction(
+      provider.connection,
+      claimTx,
+      [attendee]
+    );
+
+    expect(txSig).to.be.a("string");
+
+    const claimedItem = await program.account.merchItem.fetch(itemPda);
+    expect(claimedItem.isClaimed).to.be.true;
+    expect(claimedItem.claimedBy.toBase58()).to.equal(attendee.publicKey.toBase58());
+
+    const receipt = await program.account.claimReceipt.fetch(receiptPda);
+    expect(receipt.itemId).to.equal(itemId);
+    expect(receipt.claimant.toBase58()).to.equal(attendee.publicKey.toBase58());
   });
 
-  it("4. Attendee pre-orders merch item with sizing lock (Size XL)", async () => {
-    await program.methods
-      .placeOrder("XL")
-      .accounts({
-        campaign: campaignPda,
-        catalogItem: catalogItemPda,
-        orderEscrow: orderEscrowPda,
-        escrowVault: escrowVaultPda,
-        buyerTokenAccount: buyerPaymentAccount,
-        paymentMint: paymentMint,
-        buyer: buyer.publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId,
-        tokenProgram: TOKEN_PROGRAM_ID,
-      })
-      .signers([buyer])
-      .rpc();
+  it("Rejects replay / double-claim attack attempts", async () => {
+    const now = Math.floor(Date.now() / 1000);
+    const timestamp = new anchor.BN(now);
 
-    const orderState = await program.account.orderEscrow.fetch(orderEscrowPda);
-    expect(orderState.size).to.equal("XL");
-    expect(orderState.isRedeemed).to.be.false;
+    const timestampBuffer = Buffer.alloc(8);
+    timestampBuffer.writeBigInt64LE(BigInt(now), 0);
+    const message = Buffer.concat([attendee.publicKey.toBuffer(), timestampBuffer]);
+    const signature = nacl.sign.detached(message, hardwareChip.secretKey);
 
-    const vaultInfo = await getAccount(provider.connection, escrowVaultPda);
-    expect(Number(vaultInfo.amount)).to.equal(50_000_000);
-  });
+    const ed25519Instruction = Ed25519Program.createInstructionWithPublicKey({
+      publicKey: hardwareChip.publicKey.toBytes(),
+      message: message,
+      signature: signature,
+    });
 
-  it("5. Claims physical item in-person: mints digital twin & flushes funds", async () => {
-    const tapCounter = 1;
-
-    await program.methods
-      .claimPhysicalMerch(tapCounter)
-      .accounts({
-        campaign: campaignPda,
-        catalogItem: catalogItemPda,
-        nfcRegistry: nfcRegistryPda,
-        orderEscrow: orderEscrowPda,
-        escrowVault: escrowVaultPda,
-        treasuryTokenAccount: treasuryPaymentAccount,
-        paymentMint: paymentMint,
-        digitalTwinMint: digitalTwinMint,
-        buyerDigitalTwinAccount: buyerDigitalTwinAccount,
-        buyer: buyer.publicKey,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        systemProgram: anchor.web3.SystemProgram.programId,
-      })
-      .signers([buyer])
-      .rpc();
-
-    // Verify NFC is marked claimed
-    const nfcState = await program.account.nfcRegistry.fetch(nfcRegistryPda);
-    expect(nfcState.isClaimed).to.be.true;
-    expect(nfcState.lastTapCounter).to.equal(1);
-
-    // Verify Order is redeemed
-    const orderState = await program.account.orderEscrow.fetch(orderEscrowPda);
-    expect(orderState.isRedeemed).to.be.true;
-
-    // Verify Digital Twin balance
-    const twinBalance = await getAccount(provider.connection, buyerDigitalTwinAccount);
-    expect(Number(twinBalance.amount)).to.equal(1);
-
-    // Verify Treasury received funds
-    const treasuryBalance = await getAccount(provider.connection, treasuryPaymentAccount);
-    expect(Number(treasuryBalance.amount)).to.equal(50_000_000);
-  });
-
-  it("6. Exploit Defense: Replay attack fails on claimed NFC chip", async () => {
-    try {
+    const duplicateTx = new Transaction().add(ed25519Instruction).add(
       await program.methods
-        .claimPhysicalMerch(2)
+        .verifyAndClaim(itemId, timestamp, Array.from(signature))
         .accounts({
-          campaign: campaignPda,
-          catalogItem: catalogItemPda,
-          nfcRegistry: nfcRegistryPda,
-          orderEscrow: orderEscrowPda,
-          escrowVault: escrowVaultPda,
-          treasuryTokenAccount: treasuryPaymentAccount,
-          paymentMint: paymentMint,
-          digitalTwinMint: digitalTwinMint,
-          buyerDigitalTwinAccount: buyerDigitalTwinAccount,
-          buyer: buyer.publicKey,
-          tokenProgram: TOKEN_PROGRAM_ID,
-          systemProgram: anchor.web3.SystemProgram.programId,
+          config: configPda,
+          item: itemPda,
+          claimReceipt: receiptPda,
+          claimant: attendee.publicKey,
+          ixSysvar: SYSVAR_INSTRUCTIONS_PUBKEY,
+          systemProgram: SystemProgram.programId,
         })
-        .signers([buyer])
-        .rpc();
-      expect.fail("Should have reverted on duplicate chip claim");
+        .instruction()
+    );
+
+    try {
+      await anchor.web3.sendAndConfirmTransaction(provider.connection, duplicateTx, [attendee]);
+      expect.fail("Should have failed double claim");
     } catch (err: any) {
-      expect(err.error.errorCode.code).to.equal("ChipAlreadyClaimed");
+      expect(err.toString()).to.include("ItemAlreadyClaimed");
     }
+  });
+
+  it("Evolves Merch XP when attendee scans at Main Keynote Stage checkpoint", async () => {
+    const checkpointAuthority = Keypair.generate();
+
+    await program.methods
+      .logEventInteraction(itemId, 150)
+      .accounts({
+        config: configPda,
+        item: itemPda,
+        admin: admin.publicKey,
+        authority: checkpointAuthority.publicKey,
+      })
+      .signers([admin, checkpointAuthority])
+      .rpc();
+
+    const evolvedItem = await program.account.merchItem.fetch(itemPda);
+    expect(evolvedItem.interactionXp).to.equal(150);
   });
 });

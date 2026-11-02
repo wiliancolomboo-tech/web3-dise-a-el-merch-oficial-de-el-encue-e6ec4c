@@ -1,5 +1,5 @@
-# Verify installations
-solana --version  # >= 1.18.x
-anchor --version  # >= 0.30.x
-node --version    # >= 18.x
-yarn --version    # >= 1.22.x
+# Verify program deployment on Localnet / Devnet
+solana program show EncuentroMerch11111111111111111111111111111
+
+# Inspect specific Merch Item PDA
+solana account <DERIVED_ITEM_PDA_ADDRESS>

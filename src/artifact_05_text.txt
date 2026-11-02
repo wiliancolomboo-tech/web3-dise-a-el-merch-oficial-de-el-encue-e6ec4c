@@ -1,0 +1,9 @@
+encuentro-phygital protocol unit and integration tests
+    ✔ 1. Initializes El Encuentro 2026 Event Configuration (284ms)
+    ✔ 2. Registers an individual physical garment with embedded NFC chip pubkey (192ms)
+    ✔ 3. Claims the physical merch item via NFC challenge-response tap (215ms)
+    ✔ 4. Prevents double-claiming the same physical merch item (88ms)
+    ✔ 5. Allows verified attendee tap at conference VIP gates (142ms)
+    ✔ 6. Rejects gate tap if attempted by non-owner address (95ms)
+
+  6 passing (1.2s)

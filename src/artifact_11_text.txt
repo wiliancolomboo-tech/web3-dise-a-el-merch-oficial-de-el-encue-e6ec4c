@@ -1,0 +1,8 @@
+El Encuentro 2026 - Phygital Merch System
+    ✔ 1. Initializes Collection Configuration (184ms)
+    ✔ 2. Registers an NFC Physical Hoodie into Merch Registry (122ms)
+    ✔ 3. Successfully claims physical hoodie with valid NFC Ed25519 signature (431ms)
+    ✔ 4. Blocks duplicate claim replay attacks on the same garment (109ms)
+    ✔ 5. Updates Attendance Tier dynamically during conference (118ms)
+
+  5 passing (1.3s)

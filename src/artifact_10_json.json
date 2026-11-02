@@ -1,0 +1,14 @@
+{
+  "title": "Buy El Encuentro 2026 Official Merch",
+  "icon": "https://arweave.net/el_encuentro_hoodie_thumb.png",
+  "description": "Pre-order your Official Founder Hoodie for El Encuentro 2026. Pick it up on-site with an embedded NFC chip.",
+  "label": "Reserve Merch",
+  "links": {
+    "actions": [
+      {
+        "label": "Buy Hoodie (0.5 SOL)",
+        "href": "/api/actions/merch/buy?batch_id=101&size=L"
+      }
+    ]
+  }
+}

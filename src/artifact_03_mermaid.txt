@@ -1,0 +1,46 @@
+flowchart TD
+    subgraph Physical_Layer["Physical Layer (El Encuentro 2026 Apparel)"]
+        NFC["NTAG 424 / HaLo Cryptographic Chip<br/>(Embedded in Garment Seam)"]
+        UserPhone["Attendee Smartphone (NFC Tap Reader)"]
+    end
+
+    subgraph Client_Layer["Client / Web3 Front-End Application"]
+        TapParser["Hardware Signature Parser & Nonce Extractor"]
+        WalletSigner["Attendee Mobile Wallet (MWA / Phantom)"]
+        TxBuilder["Transaction Builder (Ed25519 Pre-Instruction + Anchor CPI)"]
+    end
+
+    subgraph Solana_Runtime["Solana On-Chain Program (El Encuentro Anchor Engine)"]
+        Ed25519Program["Native Ed25519 Program (0x02)<br/>Sig Verification Guard"]
+        MerchProgram["Merch Protocol Core Program"]
+        
+        subgraph Program_State_PDAs["PDA State Accounts"]
+            GlobalConfig["GlobalConfig PDA<br/>['config']"]
+            ChipRegistry["ChipRegistry PDA<br/>['chip', chip_pubkey]"]
+            GarmentEscrow["GarmentEscrow PDA<br/>['escrow', chip_pubkey]"]
+            Token2022Mint["Token-2022 Mint Account<br/>(Metadata Pointer + Hook)"]
+            AttendeeATA["Attendee Associated Token Account"]
+        end
+    end
+
+    %% Flow Steps
+    NFC -- "1. Physical Tap (Counter + Sig)" --> UserPhone
+    UserPhone --> TapParser
+    TapParser --> TxBuilder
+    WalletSigner -- "2. User Signature" --> TxBuilder
+    
+    TxBuilder -- "3. Atomic Transaction (Ix0: Ed25519 Verify, Ix1: Claim/Tap)" --> Solana_Runtime
+    
+    Solana_Runtime --> Ed25519Program
+    Ed25519Program -- "4. Verify Hardware Sig" --> MerchProgram
+    
+    MerchProgram --> GlobalConfig
+    MerchProgram --> ChipRegistry
+    
+    ChipRegistry -- "5. Guard: Check Monotonic Counter > Last Counter" --> ChipRegistry
+    ChipRegistry -- "6. Guard: Verify Active State & Event Phase" --> GarmentEscrow
+    
+    GarmentEscrow -- "7. Transfer / Mint Digital Twin" --> AttendeeATA
+    AttendeeATA --> Token2022Mint
+    
+    MerchProgram -- "8. Trigger XP Increment & Event Milestone" --> ChipRegistry

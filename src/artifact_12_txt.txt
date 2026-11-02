@@ -1,0 +1,18 @@
++-------------------------------------------------------------------------------------------------------+
+| INVARIANT / ATTACK VECTOR         | MITIGATION MECHANISM                                              |
++-----------------------------------+-------------------------------------------------------------------+
+| Sybil / Counterfeit Physical Merch | Ed25519 hardware key baked into silicon. On-chain validation        |
+|                                   | introspects `InstructionsSysvar` to guarantee valid hardware signature |
++-----------------------------------+-------------------------------------------------------------------+
+| Signature Replay Attacks          | One-time `ClaimReceipt` PDA seeded by `[item, chip_pubkey]`.      |
+|                                   | Duplicate claim transactions trigger initialization collisions.    |
++-----------------------------------+-------------------------------------------------------------------+
+| Escrow Drain / Reentrancy         | State mutation occurs prior to direct balance transfer. Lamports   |
+|                                   | moved natively with boundary checks (`min(escrow_lamports)`).      |
++-----------------------------------+-------------------------------------------------------------------+
+| Front-running NFC Taps            | Hardware signature signs `BuyerPubkey || Nonce`. A front-runner    |
+|                                   | submitting another signature fails buyer pubkey equality check.   |
++-----------------------------------+-------------------------------------------------------------------+
+| Integer Overflow & Supply Leakage | Strictly checked math via `.checked_add()` / `.checked_sub()`.   |
+|                                   | Guaranteed `minted_count <= max_supply`.                          |
++-----------------------------------+-------------------------------------------------------------------+

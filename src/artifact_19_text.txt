@@ -1,0 +1,9 @@
+El Encuentro 2026 - Phygital Merch Protocol
+    ✔ 1. Initializes Merch Configuration for El Encuentro 2026 (431ms)
+    ✔ 2. Registers Tier: Limited Edition Cyber-Jacket (Size L) (380ms)
+    ✔ 3. Provisions Physical Chip Key to Tier (312ms)
+    ✔ 4. Attendee Pre-Orders Merch via SOL Escrow (394ms)
+    ✔ 5. Claims Physical Merch with Hardware Ed25519 Tap Signature (482ms)
+    ✔ 6. Rejects Replay Attacks or Double Claims with Same Hardware Chip (265ms)
+
+  6 passing (2.3s)

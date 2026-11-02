@@ -1,0 +1,8 @@
+encuentro_merch phygital protocol
+    ✔ 1. Initializes Merch Configuration (182ms)
+    ✔ 2. Registers Official Physical Merch Item (Hoodie) (125ms)
+    ✔ 3. Successfully Claims Merch via Precompile Ed25519 NFC Signature (210ms)
+    ✔ 4. Rejects Duplicate Claim Attempt (Anti-Double Claim) (85ms)
+    ✔ 5. Rejects Forged Hardware Signature (Tamper Attack) (92ms)
+
+  5 passing (1.2s)

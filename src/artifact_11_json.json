@@ -1,0 +1,17 @@
+{
+    "name": "El Encuentro 2026 - Official Master Hoodie #001",
+    "symbol": "ENCU26",
+    "description": "Cryptographically authenticated physical hoodie distributed at El Encuentro 2026.",
+    "seller_fee_basis_points": 500,
+    "image": "https://arweave.net/el-encuentro-2026-garment.png",
+    "attributes": [
+      { "trait_type": "Batch", "value": "Founders Edition" },
+      { "trait_type": "Edition Size", "value": "100" },
+      { "trait_type": "Hardware Standard", "value": "NTAG 424 DNA" },
+      { "trait_type": "Phygital Claim Status", "value": "Redeemed" }
+    ],
+    "properties": {
+      "category": "phygital",
+      "files": [{ "uri": "https://arweave.net/el-encuentro-2026-garment.png", "type": "image/png" }]
+    }
+  }

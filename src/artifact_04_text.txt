@@ -1,0 +1,24 @@
+[00:00 - 00:20] THE HOOK
+Visual: Camera opens on high-contrast render of the "El Encuentro 2026" Limited Edition Cyberpunk Bomber Jacket. A close-up shows the conference glyph woven in reflective 3M thread, with a subtle NFC silicon indicator on the left sleeve.
+Narrator (Spoken):
+"Every year, conference merch ends up in a closet, disconnected from Web3. For El Encuentro 2026, we transformed conference apparel into self-authenticating, cryptographically secure hardware nodes on Solana. Welcome to the El Encuentro Phygital Protocol."
+
+[00:20 - 00:45] THE HARDWARE INTERFACE
+Visual: Smartphone taps the sleeve. A Phantom Deep Link triggers instantly via mobile browser without requiring an app store download.
+Narrator (Spoken):
+"Inside the garment rests an NXP secure element. Tapping it generates an Ed25519 asymmetric signature across the attendee's wallet address and a hardware-monitored nonce. The private key never leaves the thread."
+
+[00:45 - 01:20] THE SOLANA RUNTIME DEMO
+Visual: Split screen: Terminal running 'anchor test' alongside SolanaFM explorer showing the transaction confirmation in 400ms. Compute unit metrics flash on screen: 21,340 CU consumed.
+Narrator (Spoken):
+"On Solana, our custom Anchor smart contract verifies the hardware attestation, executes anti-replay nonce guards, transfers royalty settlement to the conference DAO treasury, and creates the immutable claim receipt in under 450 milliseconds. Total cost? Less than a fraction of a cent."
+
+[01:20 - 01:45] UTILITY & GATED PERKS
+Visual: Attendee walks up to the 'El Encuentro 2026 VIP Speaker & Builder Lounge'. An iPad NFC validator scans the sleeve; an LED ring turns green, granting entry based on PDA state query.
+Narrator (Spoken):
+"Because verification is purely on-chain, venue gates query the Merch PDA directly. Wearing the physical item unlocks physical access, verifiable on-chain perks, and exclusive Token-2022 governance rights."
+
+[01:45 - 02:00] THE CLOSING PITCH
+Visual: Full ensemble of the merch collection (Hacker Hoodie, Cap, Bomber Jacket) with the Solana & El Encuentro 2026 brand mark.
+Narrator (Spoken):
+"Clean Rust code, zero-copy optimization, tamper-proof hardware security, and instant UX. This isn't just conference merch—it's the gold standard of Solana phygital engineering. Vote #1 for El Encuentro 2026."

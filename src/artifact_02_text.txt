@@ -1,0 +1,19 @@
+el_encuentro_merch/
+├── Anchor.toml
+├── Cargo.toml
+├── programs/
+│   └── el_encuentro_merch/
+│       ├── Cargo.toml
+│       └── src/
+│           ├── errors.rs
+│           ├── instructions/
+│           │   ├── initialize_drop.rs
+│           │   ├── register_merch_item.rs
+│           │   ├── claim_merch.rs
+│           │   ├── verify_venue_presence.rs
+│           │   └── mod.rs
+│           ├── state.rs
+│           ├── utils.rs
+│           └── lib.rs
+└── tests/
+    └── el_encuentro_merch.ts

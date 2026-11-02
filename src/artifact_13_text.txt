@@ -1,0 +1,11 @@
+encuentro_merch: Phygital Architecture Tests
+    ✔ 1. Initializes Collection for El Encuentro 2026 (428ms)
+    ✔ 2. Registers Physical Item with NFC Secret Commitment (214ms)
+    ✔ 3. Creates Token-2022 Mint PDA and ATA for Recipient (390ms)
+    ✔ 4. Prevents Front-Running: Claim Fails with Invalid Secret Entropy (182ms)
+    ✔ 5. Successfully Claims Merch with Valid Physical Tap Proof (312ms)
+    ✔ 6. Replay Attack Prevention: Claim Fails on Already-Claimed Item (178ms)
+    ✔ 7. Redeems On-Site Perk (VIP Lounge Entry - Bit 0) (195ms)
+    ✔ 8. Perk Double-Redeem Prevention (166ms)
+
+  8 passing (2.3s)

@@ -1,0 +1,1 @@
+solana address -k target/deploy/el_encuentro_merch-keypair.json

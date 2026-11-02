@@ -1,0 +1,27 @@
+{
+  "name": "El Encuentro 2026 - Cyberpunk Andean Hoodie #001",
+  "symbol": "ENCMERCH",
+  "description": "Official authenticated physical garment from El Encuentro 2026. Equipped with high-security cryptographic NFC verification on Solana.",
+  "image": "https://arweave.net/el-encuentro-2026/hoodie-001.png",
+  "animation_url": "https://arweave.net/el-encuentro-2026/hoodie-3d-model.glb",
+  "external_url": "https://elencuentro.lat/merch/202601/1",
+  "attributes": [
+    { "trait_type": "Event", "value": "El Encuentro 2026" },
+    { "trait_type": "Apparel Type", "value": "Cyberpunk Andean Hoodie" },
+    { "trait_type": "Batch ID", "value": "202601" },
+    { "trait_type": "Item ID", "value": "1" },
+    { "trait_type": "Physical Chip Type", "value": "Ed25519 Secure Element" },
+    { "trait_type": "Fabric Spec", "value": "450 GSM French Terry Cotton" },
+    { "trait_type": "VIP Tier", "value": "Core Contributor" },
+    { "trait_type": "Status", "value": "Physical Ownership Verified" }
+  ],
+  "properties": {
+    "files": [
+      {
+        "uri": "https://arweave.net/el-encuentro-2026/hoodie-001.png",
+        "type": "image/png"
+      }
+    ],
+    "category": "vr"
+  }
+}

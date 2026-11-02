@@ -1,0 +1,21 @@
++------------------------------------+-------------------------------------------+-----------------------------------------------+
+| Threat Vector                      | Potential Exploit / Attack Mechanism      | Applied On-Chain Mitigation Guard             |
++------------------------------------+-------------------------------------------+-----------------------------------------------+
+| Hardware Key Forgery / Replay      | Attacker intercepts public key and        | Native Ed25519Program Introspection Sysvar.   |
+|                                    | attempts claim with synthetic pubkey      | Verifies fresh challenge message + signature. |
++------------------------------------+-------------------------------------------+-----------------------------------------------+
+| Double Claim / Sybil Attack        | Attendee claims duplicate cNFT twins with | PDA derivation seeded strictly by Hardware    |
+|                                    | single physical garment                   | Chip Pubkey (`PREFIX_CHIP + chip_pubkey`).    |
++------------------------------------+-------------------------------------------+-----------------------------------------------+
+| Reentrancy & Escrow Drain          | Drain via CPI token hooks or state misuse | State modified prior to CPI calls; PDA seed   |
+|                                    |                                           | isolation prevents cross-call re-entry.       |
++------------------------------------+-------------------------------------------+-----------------------------------------------+
+| Preorder Impersonation             | Claiming someone else's preorder          | Explicit constraint check:                    |
+|                                    | allocation                                | `require!(order.buyer == ctx.accounts.buyer)` |
++------------------------------------+-------------------------------------------+-----------------------------------------------+
+| Scalper Bot Frontrunning           | Bulk buying items to resell               | Supply capping per Item ID PDA; Token-2022    |
+|                                    |                                           | Non-Transferable metadata extension ready.    |
++------------------------------------+-------------------------------------------+-----------------------------------------------+
+| Fake Gate Tap / Venue Check-in     | Offline spoofing of venue attendee badges | Gatekeeper signature requirement + Sysvar     |
+|                                    | to gain VIP access without item           | verification of hardware chip Ed25519 sig.    |
++------------------------------------+-------------------------------------------+-----------------------------------------------+

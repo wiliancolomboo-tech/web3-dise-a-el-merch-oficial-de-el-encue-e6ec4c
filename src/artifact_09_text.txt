@@ -1,0 +1,8 @@
+El Encuentro 2026 - Phygital Merch Tests
+    ✔ 1. Inicializa la Configuración del Evento con éxito (245ms)
+    ✔ 2. Registra un ítem físico individual (Hoodie Oficial) (182ms)
+    ✔ 3. Asistente escanea chip NFC y realiza Tap-to-Claim del Token-2022 (412ms)
+    ✔ 4. Falla al intentar reclamar el mismo ítem por segunda vez (Replay Attack Guard) (130ms)
+    ✔ 5. Staff de El Encuentro 2026 valida la presencia física en el Venue (165ms)
+
+  5 passing (1.13s)

@@ -1,0 +1,9 @@
+El Encuentro 2026 - Phygital Merch Protocol QA Matrix
+    ✔ 1. Initializes Collection Config and Escrow PDA successfully (420ms)
+    ✔ 2. Registers a physical merch item with embedded chip pubkey (380ms)
+    ✔ 3. Executes Pre-order and routes funds to Escrow Vault (412ms)
+    ✔ 4. Rejects duplicate pre-order attempts from the same attendee (185ms)
+    ✔ 5. Performs NFC Tap-to-Claim verification and mints Token-2022 Digital Twin (528ms)
+    ✔ 6. Replay Defense: Rejects duplicate NFC claim attempt with expired counter (190ms)
+
+  6 passing (2.1s)

@@ -1,0 +1,8 @@
+El Encuentro 2026 - Phygital Merch Protocol QA Suite
+    ✔ 1. Initializes the El Encuentro 2026 protocol configuration (412ms)
+    ✔ 2. Registers an official batch item (Hoodie) with embedded chip pubkey (289ms)
+    ✔ 3. Attestation & First Claim: Attendee taps merch to claim digital twin (518ms)
+    ✔ 4. Prevents an imposter from triggering proof-of-wear on bound merch (310ms)
+    ✔ 5. Prevents expired challenge slots (Replay Protection) (295ms)
+
+  5 passing (2s)

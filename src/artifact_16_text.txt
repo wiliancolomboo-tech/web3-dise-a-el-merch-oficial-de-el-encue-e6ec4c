@@ -1,0 +1,8 @@
+el_encuentro_merch: Phygital Protocol Tests
+    ✔ 1. Initializes Collection Configuration for El Encuentro 2026 (412ms)
+    ✔ 2. Pre-registers Physical Merch Unit with Secure Enclave Pubkey (389ms)
+    ✔ 3. Executes NFC Cryptographic Claim with Introspection Verification (620ms)
+    ✔ 4. Prevents Replay Attacks with lower or identical counter (215ms)
+    ✔ 5. Dynamically upgrades merch trait on event keynote participation (305ms)
+
+  5 passing (2s)

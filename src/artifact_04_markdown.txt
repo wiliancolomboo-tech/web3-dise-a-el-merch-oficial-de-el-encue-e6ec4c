@@ -1,0 +1,19 @@
+[00:00 - 00:20] Hook & System Introduction
+Visual: Screen splits showing high-end 3D model of "El Encuentro 2026 Official Merch" on the left; Solana CLI terminal on the right.
+Speaker: "Most conference merchandise ends up lost, counterfeit, or forgotten. For El Encuentro 2026, we engineered an institutional-grade Phygital Merchandise Protocol built natively on Solana and Token-2022. Every single garment features an embedded cryptographic NFC microchip that is bound to a dynamic digital twin."
+
+[00:20 - 00:50] Smart Contract & Escrow Flow
+Visual: Codebase walkthrough of `programs/el_encuentro_merch/src/lib.rs`. Highlighting the Ed25519 precompile introspection routine.
+Speaker: "Here is our Anchor protocol. When an attendee reserves a jacket or cyberpunk poncho, their payment stays secured in an on-chain escrow PDA. The merchant cannot claim funds until the physical attendee actually verifies on-site at El Encuentro in 2026."
+
+[00:50 - 01:25] Live Physical Tap & Hardware Claim
+Visual: Mobile phone taps an NFC chip embedded in a hoodie sleeve. The Web3 dApp captures the cryptographic signature, sends an atomic transaction with an Ed25519 precompile + Anchor claim instruction.
+Speaker: "Watch this live interaction: When the attendee taps their garment, the secure-element chip signs an ephemeral payload with its private key. Our contract inspects the instruction sysvar, confirms the hardware signature matches our on-chain chip registry, unlocks the escrow, and mints an official soulbound digital credential to the attendee's wallet."
+
+[01:25 - 01:45] Security & Anti-Replay Demonstration
+Visual: Terminal runs the Mocha test suite. Test #6 (`Prevents Double-Claiming`) throws error `MerchError::AlreadyClaimed`.
+Speaker: "Replay attacks and counterfeits are mathematically impossible. Re-tapping the same garment fails immediately with `AlreadyClaimed`. The token enables dynamic venue entry, VIP lounge access, and exclusive voting perks throughout El Encuentro 2026."
+
+[01:45 - 02:00] Closing Value Proposition
+Visual: Summary slide with gas profile (<55k CU) and GitHub repository links.
+Speaker: "Minimal compute overhead, zero double-claims, and real-world utility for the Solana ecosystem. This is the future of event merchandise. Thank you."

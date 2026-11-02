@@ -1,0 +1,12 @@
+Security Guard                         Mitigated Attack Vector
++------------------------------------+    +------------------------------------------+
+| Sysvar Instruction Introspection   | -> | Bypassed chip proof / Fake signatures    |
++------------------------------------+    +------------------------------------------+
+| Strict Monotonic Counter Check     | -> | NFC scan cloning & replay attacks        |
++------------------------------------+    +------------------------------------------+
+| Deterministic 3-Seed PDA Mapping   | -> | Account confusion / item spoofing        |
++------------------------------------+    +------------------------------------------+
+| Authority Constraint Checks        | -> | Unauthorized merchandise injection       |
++------------------------------------+    +------------------------------------------+
+| Status Sentinel (`is_claimed`)     | -> | Double-claim of physical garments        |
++------------------------------------+    +------------------------------------------+

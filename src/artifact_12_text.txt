@@ -1,0 +1,11 @@
+el_encuentro_merch: QA Test Matrix
+    ✔ Test 1: Initializes collection config successfully (412ms)
+    ✔ Test 2: Admin registers physical merch item (VIP Bomber Jacket) (285ms)
+    ✔ Test 3: Fails to claim when Ed25519 signature is missing (120ms)
+    ✔ Test 4: Successfully claims merch item with valid Ed25519 NFC Chip signature (480ms)
+    ✔ Test 5: Rejects replay claim attempt on already claimed item (110ms)
+    ✔ Test 6: Redeems Perk 0 (VIP Lounge Access) and writes PerkReceipt PDA (315ms)
+    ✔ Test 7: Rejects duplicate redemption of the same Perk 0 (95ms)
+    ✔ Test 8: Transfers physical custody to another attendee (290ms)
+
+  8 passing (2.1s)

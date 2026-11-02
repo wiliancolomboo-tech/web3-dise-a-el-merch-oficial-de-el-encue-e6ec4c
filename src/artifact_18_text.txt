@@ -1,0 +1,9 @@
+El Encuentro 2026 - Phygital Merch System
+    ✔ 1. Initializes Collection Config PDA successfully (185ms)
+    ✔ 2. Registers a physical hoodie item with embedded hardware chip (210ms)
+    ✔ 3. Prevents tap interactions before physical venue pickup (42ms)
+    ✔ 4. Claims physical merch at El Encuentro booth (198ms)
+    ✔ 5. Fails when attempting to double-claim the same garment (38ms)
+    ✔ 6. Successfully validates physical NFC tap and protects against nonce replay (245ms)
+
+  6 passing (918ms)

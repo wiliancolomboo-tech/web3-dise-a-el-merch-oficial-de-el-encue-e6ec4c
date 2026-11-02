@@ -1,9 +1,8 @@
-+-----------------------------------------------------------------------------------+
-|                            EL ENCUENTRO 2026 ECOSYSTEM                             |
-+--------------------------+------------------------------+-------------------------+
-|      PHYSICAL LAYER      |       CRYPTOGRAPHIC LINK     |      SOLANA RUNTIME     |
-|   Factory Merch Item     |   Dynamic SUN (Secure Unique |   Anchor Program        |
-|  [NTAG 424 DNA Chip]    ===>     NFC URL) + AES-CMAC    ===> [Redemption PDA]      |
-|  - Apparel / Badges      |   Ed25519 Chip Signature     |   - Anti-replay nonce   |
-|  - Unique UID & Counter  |   One-Time Dynamic Token     |   - Token-2022 Mint/Hook|
-+--------------------------+------------------------------+-------------------------+
+[ Physical Asset: NFC Secure Element ]
+                        │  (Ed25519 Ephemeral Signature)
+                        ▼
+      [ Solana Anchor Program: el_encuentro_merch ]
+     ┌──────────────────┴──────────────────┐
+     ▼                                     ▼
+[ Soulbound Event Badge ]        [ Dynamic Twin NFT State ]
+(XP, Keynote Tap-ins)            (Evolutionary Traits / Tier)

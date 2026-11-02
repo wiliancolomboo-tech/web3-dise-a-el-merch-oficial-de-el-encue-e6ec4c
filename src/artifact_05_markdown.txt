@@ -1,0 +1,19 @@
+[0:00 - 0:15] INTRO & THE PROBLEM
+(Visual: Split screen. On left, fake conference shirts and chaotic merch lines. On right, clean terminal showing Solana CLI).
+Spoken: "Conference merchandise at major events like El Encuentro is plagued by two issues: rampant bootlegging and disconnected physical inventory. In 2026, merchandise shouldn't just be cloth—it must be an authentic, verifiable on-chain asset."
+
+[0:15 - 0:45] ARCHITECTURE DEEP DIVE
+(Visual: Screen capture zooming into the Mermaid architecture diagram, highlighting PDA seeds and Escrow Vault).
+Spoken: "Introducing the El Encuentro 2026 Phygital Merch Protocol. Every official hoodie, cap, and badge embeds a cryptographic NTAG 424 DNA NFC chip. On-chain, each garment has a corresponding PDA state machine built on Solana. Attendees pre-order through an escrow contract, locking lamports securely without counterparty risk."
+
+[0:45 - 1:15] LIVE TERMINAL DEMO
+(Visual: Fast, sharp terminal recording running 'anchor test', passing all 6 QA test suites with green checkmarks).
+Spoken: "Here is our QA matrix running live on localnet. We initialize the protocol, register SKU 'E26-HOODIE-L' mapped to the chip's Ed25519 key, and lock escrow. Notice the logistics pipeline: the admin moves the item from Manufactured to ReadyAtVenue. When the attendee taps their phone to the physical hoodie at the venue, their hardware-derived signature releases the escrow instantly—splitting 10% to the designer pool and 90% to the treasury."
+
+[1:15 - 1:45] SECURITY & HIGH-PERFORMANCE BENCHMARKS
+(Visual: Displaying the CU Table and Security Matrix. Highlights <25,000 CU execution and zero reentrancy risk).
+Spoken: "Our contract executes in less than 24,000 Compute Units, enabling massive parallel claiming without network congestion. All calculations use checked arithmetic, zero dynamic heap bloat, and strict Checks-Effects-Interactions patterns to eradicate reentrancy."
+
+[1:45 - 2:00] THE WINNING PITCH
+(Visual: Sleek mockups of El Encuentro 2026 hoodies alongside the Solana Phantom wallet displaying the animated Digital Twin).
+Spoken: "This isn't a mock design concept. This is production-ready, bank-grade infrastructure that bridges physical craftsmanship with Solana's speed. El Encuentro 2026 deserves the gold standard of Web3 phygital retail. Vote E26-PMP for 1st place."

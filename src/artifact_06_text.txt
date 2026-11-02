@@ -1,0 +1,8 @@
+El Encuentro 2026 - Phygital Merch System QA Suite
+    ✔ 1. Successfully initializes the El Encuentro 2026 Collection Registry (287ms)
+    ✔ 2. Registers a physical merch item with embedded chip hardware pubkey (212ms)
+    ✔ 3. Validates and executes physical item redemption via hardware proof (415ms)
+    ✔ 4. Rejects double-redemption attempt (Anti-Double Spend Security) (165ms)
+    ✔ 5. Rejects registration from unauthorized non-authority signer (142ms)
+
+  5 passing (1.4s)

@@ -1,0 +1,30 @@
+{
+  "name": "El Encuentro 2026 - Phygital Hoodie #0001",
+  "symbol": "ENCU26",
+  "description": "Official Verified Merchandise for El Encuentro 2026 on Solana. Cryptographically bonded via embedded NFC silicon.",
+  "image": "https://arweave.net/el-encuentro-2026/merch/founder-hoodie.png",
+  "external_url": "https://elencuentro2026.xyz",
+  "attributes": [
+    { "trait_type": "SKU", "value": "Founder Heavy Hoodie" },
+    { "trait_type": "Size", "value": "L" },
+    { "trait_type": "Edition", "value": "1 of 500" },
+    { "trait_type": "Chip Standard", "value": "NTAG 424 DNA" },
+    { "trait_type": "Authenticity", "value": "Hardware Cryptographic Verified" },
+    { "trait_type": "Event Year", "value": "2026" }
+  ],
+  "properties": {
+    "category": "phygital",
+    "files": [
+      {
+        "uri": "https://arweave.net/el-encuentro-2026/merch/founder-hoodie.png",
+        "type": "image/png"
+      }
+    ],
+    "creators": [
+      {
+        "address": "Encu26Merch111111111111111111111111111111111",
+        "share": 100
+      }
+    ]
+  }
+}

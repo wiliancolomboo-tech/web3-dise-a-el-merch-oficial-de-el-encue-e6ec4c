@@ -1,0 +1,13 @@
+{
+  "name": "El Encuentro 2026: Phygital Hoodie #0042",
+  "symbol": "ENC26-HOODIE",
+  "description": "Official Cryptographically Verified Wearable for El Encuentro 2026. Equipped with Hardware Ed25519 Proof of Physical Possession.",
+  "image": "https://arweave.net/el-encuentro-2026/hoodie-42.png",
+  "attributes": [
+    { "trait_type": "Serial", "value": "0042" },
+    { "trait_type": "State", "value": "PhysicallyBound" },
+    { "trait_type": "Tier", "value": "VIPExclusive" },
+    { "trait_type": "Checkpoints Completed", "value": 3 },
+    { "trait_type": "Physical Hardware", "value": "NTAG-424-DNA-Ed25519" }
+  ]
+}

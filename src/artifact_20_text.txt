@@ -1,0 +1,9 @@
+encuentro-merch-protocol E2E QA Matrix
+    ✔ 1. Initializes the Official El Encuentro 2026 Merch Collection (412ms)
+    ✔ 2. Registers Physical Item Hardware (NFC Ed25519 Pubkey) (289ms)
+    ✔ 3. Buyer Escrows Funds and Pre-orders Physical Item #1 (305ms)
+    ✔ 4. Rejects Claim Attempt when Chip Signature Instruction is Absent (182ms)
+    ✔ 5. Successfully Claims & Binds Physical Item with Valid NFC Tap (Ed25519 Precompile) (341ms)
+    ✔ 6. Prevents Double-Claiming of Already Bound Merchandise (195ms)
+
+  6 passing (1.72s)

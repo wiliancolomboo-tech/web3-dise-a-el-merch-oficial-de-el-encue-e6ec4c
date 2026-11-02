@@ -1,0 +1,10 @@
+El Encuentro 2026 - Phygital Merch Protocol QA Suite
+    ✔ 1. Initializes global protocol configuration (412ms)
+    ✔ 2. Manufacturer registers official physical garment (Genesis Varsity Jacket) (298ms)
+    ✔ 3. Successfully claims physical merchandise via hardware-signed challenge (385ms)
+    ✔ 4. Rejects counterfeit/replay attempt with stale nonce (195ms)
+    ✔ 5. In-person live NFC tap at El Encuentro 2026 venue increments nonce (310ms)
+    ✔ 6. Redeems physical conference VIP perk on-chain (275ms)
+    ✔ 7. Defends against duplicate perk redemption (180ms)
+
+  7 passing (2.1s)

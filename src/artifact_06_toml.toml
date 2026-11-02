@@ -1,0 +1,9 @@
+[programs.localnet]
+encuentro_merch = "Encu26Merch111111111111111111111111111111111"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
+
+[test]
+startup_wait = 5000
