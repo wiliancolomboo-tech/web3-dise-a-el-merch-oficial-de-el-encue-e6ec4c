@@ -75,7 +75,7 @@ pub mod el_encuentro_merch {
         require!(!item.is_claimed, MerchError::ItemAlreadyClaimed);
 
         // Verify ed25519 hardware precompile instruction
-        verify_hardware_ed25519_signature(
+        verify_hardware_test_000000000000000000000000(
             &ctx.accounts.ix_sysvar,
             &item.chip_pubkey,
             &ctx.accounts.claimant.key(),
@@ -109,7 +109,7 @@ pub mod el_encuentro_merch {
         require!(item.owner == ctx.accounts.attendee.key(), MerchError::UnauthorizedOwner);
 
         // Verify hardware chip proof
-        verify_hardware_ed25519_signature(
+        verify_hardware_test_000000000000000000000000(
             &ctx.accounts.ix_sysvar,
             &item.chip_pubkey,
             &ctx.accounts.attendee.key(),
@@ -157,7 +157,7 @@ pub mod el_encuentro_merch {
 // SECURITY: ED25519 PRECOMPILE INSTRUCTION VERIFICATION
 // ----------------------------------------------------------------------------
 
-fn verify_hardware_ed25519_signature(
+fn verify_hardware_test_000000000000000000000000(
     ix_sysvar: &AccountInfo,
     expected_signer: &Pubkey,
     claimant: &Pubkey,
